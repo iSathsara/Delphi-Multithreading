@@ -1,7 +1,7 @@
-object FrmSingleThread: TFrmSingleThread
+object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = 'Single Thread'
+  Caption = 'Multi Thread'
   ClientHeight = 307
   ClientWidth = 583
   Color = clBtnFace
@@ -10,9 +10,15 @@ object FrmSingleThread: TFrmSingleThread
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 15
+  object lblDescription: TLabel
+    Left = 56
+    Top = 43
+    Width = 284
+    Height = 15
+    Caption = 'Read file in a seperate Thread / Sync with Main Thread'
+  end
   object lblPercentage: TLabel
     Left = 452
     Top = 104
@@ -51,6 +57,7 @@ object FrmSingleThread: TFrmSingleThread
     Width = 145
     Height = 33
     Caption = 'S T O P'
+    Enabled = False
     TabOrder = 2
     OnClick = btnStopClick
   end

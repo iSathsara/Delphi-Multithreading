@@ -4,7 +4,7 @@
     The application becomes unresponsive when it started, until the process is completed.
 }
 
-unit uMainForm;
+unit uSingleThreadMainForm;
 
 interface
 
@@ -18,6 +18,7 @@ type
     lblPercentage: TLabel;
     btnStart: TButton;
     btnStop: TButton;
+    lblDescription: TLabel;
     procedure btnStartClick(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
   private
