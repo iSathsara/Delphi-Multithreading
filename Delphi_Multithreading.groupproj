@@ -6,6 +6,9 @@
         <Projects Include="SingleThread\SingleThread.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="MultiThread\MultiThread.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -23,14 +26,23 @@
     <Target Name="SingleThread:Make">
         <MSBuild Projects="SingleThread\SingleThread.dproj" Targets="Make"/>
     </Target>
+    <Target Name="MultiThread">
+        <MSBuild Projects="MultiThread\MultiThread.dproj"/>
+    </Target>
+    <Target Name="MultiThread:Clean">
+        <MSBuild Projects="MultiThread\MultiThread.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MultiThread:Make">
+        <MSBuild Projects="MultiThread\MultiThread.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SingleThread"/>
+        <CallTarget Targets="SingleThread;MultiThread"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SingleThread:Clean"/>
+        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SingleThread:Make"/>
+        <CallTarget Targets="SingleThread:Make;MultiThread:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

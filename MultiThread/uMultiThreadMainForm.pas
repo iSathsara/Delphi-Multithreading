@@ -13,7 +13,7 @@ type
     FFileName   : String;
 
     procedure LoadFile;
-  public
+  protected
     procedure Execute; override;
     procedure SyncWithMainThread();
   end;
@@ -73,6 +73,7 @@ begin
     for J := 0 to 1000000 do
       Readln(TxtFile, line);
 
+    // sync
     Synchronize(SyncWithMainThread);
     CloseFile(TxtFile);
 
@@ -87,13 +88,15 @@ end;
 procedure TSeperateThread.SyncWithMainThread();
 begin
   // progress update should show here
-
+  Form3.ProgressBar.Position:=FPercentage;
+  Form3.lblPercentage.Caption:= 'Completion: ' + (FPercentage.ToString + '%');
 end;
 
 procedure TForm3.btnStartClick(Sender: TObject);
 begin
   btnStart.Enabled := False;
   btnStop.Enabled := true;
+  ProgressBar.State := pbsNormal;
 
   TMyThread := TSeperateThread.Create(True);
   TMyThread.FreeOnTerminate:= True;
@@ -106,6 +109,7 @@ procedure TForm3.btnStopClick(Sender: TObject);
 begin
   if TMyThread <> nil then
     TMyThread.Terminate;
+  ProgressBar.State := pbsError;
 end;
 
 procedure TForm3.DoTerminateThread(Sender: TObject);
