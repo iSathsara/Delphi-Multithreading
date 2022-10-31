@@ -1,3 +1,13 @@
+{
+    What this application does is, reading a large text file.
+    This uses a dedicated thread (not main thread) for the purpose.
+    It sync (Synchronize method) with the Main thread which runs the main application.
+    Continuous sync is necessary to get Messages from Windows
+
+    ** You will have a Memory Leak error if you try to Close the application before stop the thread.
+       Because the thread is not terminated & still in the memory!
+}
+
 unit uMultiThreadMainForm;
 
 interface
@@ -37,6 +47,8 @@ type
   end;
 
 var
+  // Global variable.
+  // possible to access thru both Class & Thread
   Form3: TForm3;
 
 implementation
@@ -45,6 +57,8 @@ implementation
 
 { TSeperateThread }
 
+// Thread.Start calls this method automatically.
+// No need of calling forcly
 procedure TSeperateThread.Execute;
 Var
   I: Integer;
@@ -88,6 +102,10 @@ end;
 procedure TSeperateThread.SyncWithMainThread();
 begin
   // progress update should show here
+
+  // This method is called by Synchronize() method.
+  // So the thread (seperate) has to wait until following operations are completed which cause for Thread suspend
+  // The problem is, if following operations takes long time, thread has to be suspended for long time.
   Form3.ProgressBar.Position:=FPercentage;
   Form3.lblPercentage.Caption:= 'Completion: ' + (FPercentage.ToString + '%');
 end;
