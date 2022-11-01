@@ -1,3 +1,9 @@
+{
+    What this application does is, reading a large text file.
+    This uses a seperated thread for file reading, & the app is running on main thread
+    Here, a critical section is used to update the progress, via Windows Message handling
+}
+
 unit uCriticalSectionMainForm;
 
 interface
@@ -135,6 +141,7 @@ begin
   PostMessage(Handle, WM_UPDATE_PROCESS, 0, 0);
 end;
 
+// this method is called automatically
 procedure TForm4.WindowsMsgUpdateProgress(var AMessage: TMessage);
 var
   AProgress: Integer;
