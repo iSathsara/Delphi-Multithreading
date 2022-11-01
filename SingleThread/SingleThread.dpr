@@ -2,7 +2,7 @@ program SingleThread;
 
 uses
   Vcl.Forms,
-  uMainForm in 'uMainForm.pas' {FrmSingleThread};
+  uSingleThreadMainForm in 'uSingleThreadMainForm.pas' {FrmSingleThread};
 
 {$R *.res}
 
