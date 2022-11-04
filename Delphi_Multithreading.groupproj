@@ -18,6 +18,9 @@
         <Projects Include="Deadlock\DeadLock.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Deadlock_Fix\DeadLockFixed.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -71,14 +74,23 @@
     <Target Name="DeadLock:Make">
         <MSBuild Projects="Deadlock\DeadLock.dproj" Targets="Make"/>
     </Target>
+    <Target Name="DeadLockFixed">
+        <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj"/>
+    </Target>
+    <Target Name="DeadLockFixed:Clean">
+        <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DeadLockFixed:Make">
+        <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SingleThread;MultiThread;CriticalSection;Interlock;DeadLock"/>
+        <CallTarget Targets="SingleThread;MultiThread;CriticalSection;Interlock;DeadLock;DeadLockFixed"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean;CriticalSection:Clean;Interlock:Clean;DeadLock:Clean"/>
+        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean;CriticalSection:Clean;Interlock:Clean;DeadLock:Clean;DeadLockFixed:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SingleThread:Make;MultiThread:Make;CriticalSection:Make;Interlock:Make;DeadLock:Make"/>
+        <CallTarget Targets="SingleThread:Make;MultiThread:Make;CriticalSection:Make;Interlock:Make;DeadLock:Make;DeadLockFixed:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
