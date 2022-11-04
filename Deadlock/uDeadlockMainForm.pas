@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, SyncObjs, System.Math;
 
 const
-  THREAD_COUNT = 13;
+  THREAD_COUNT = 8;
 
 type
   TForm6 = class;
@@ -82,6 +82,7 @@ begin
   inherited;
 end;
 
+// Execute procedure describes what should happen when Thread is running...
 procedure TSeperateThread.Execute;
 var
   I : Integer;
@@ -89,6 +90,8 @@ var
   NextReceiverNo : Integer;
   ReceiverThread : TSeperateThread;
 begin
+            // Execute() responsible for periodically check Terminated value to determine
+            // the status of thread..
   while not Terminated do Begin
     // put message queue in critical section
     FMessageQueue.FCriticalSec.Enter();
@@ -140,6 +143,7 @@ begin
    SetLength(FMessageQueue.FMessages, 0);
 
    // update form's listbox via sync method
+   // communicate between main thread & sub threads
    Synchronize(
      procedure() Begin
        Form6.ListBx.Items[ FThreadNo ] := IntToStr(ACounter);

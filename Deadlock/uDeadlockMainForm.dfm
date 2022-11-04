@@ -10,6 +10,7 @@ object Form6: TForm6
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 15
   object lblDescription: TLabel
