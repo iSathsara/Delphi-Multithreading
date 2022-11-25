@@ -21,6 +21,9 @@
         <Projects Include="Deadlock_Fix\DeadLockFixed.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -83,14 +86,23 @@
     <Target Name="DeadLockFixed:Make">
         <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj" Targets="Make"/>
     </Target>
+    <Target Name="Multi_Read_Exclusive_Write">
+        <MSBuild Projects="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj"/>
+    </Target>
+    <Target Name="Multi_Read_Exclusive_Write:Clean">
+        <MSBuild Projects="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Multi_Read_Exclusive_Write:Make">
+        <MSBuild Projects="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SingleThread;MultiThread;CriticalSection;Interlock;DeadLock;DeadLockFixed"/>
+        <CallTarget Targets="SingleThread;MultiThread;CriticalSection;Interlock;DeadLock;DeadLockFixed;Multi_Read_Exclusive_Write"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean;CriticalSection:Clean;Interlock:Clean;DeadLock:Clean;DeadLockFixed:Clean"/>
+        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean;CriticalSection:Clean;Interlock:Clean;DeadLock:Clean;DeadLockFixed:Clean;Multi_Read_Exclusive_Write:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SingleThread:Make;MultiThread:Make;CriticalSection:Make;Interlock:Make;DeadLock:Make;DeadLockFixed:Make"/>
+        <CallTarget Targets="SingleThread:Make;MultiThread:Make;CriticalSection:Make;Interlock:Make;DeadLock:Make;DeadLockFixed:Make;Multi_Read_Exclusive_Write:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
