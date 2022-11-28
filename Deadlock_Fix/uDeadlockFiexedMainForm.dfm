@@ -1,7 +1,7 @@
-object Form6: TForm6
+object Form7: TForm7
   Left = 0
   Top = 0
-  Caption = 'DeadLock '
+  Caption = 'DeadLock Fix'
   ClientHeight = 321
   ClientWidth = 377
   Color = clBtnFace
@@ -10,23 +10,14 @@ object Form6: TForm6
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poDesktopCenter
   PixelsPerInch = 96
   TextHeight = 15
   object lblDescription: TLabel
     Left = 24
     Top = 24
-    Width = 201
+    Width = 198
     Height = 15
-    Caption = 'Multiple Threads  / Deadlock Situation'
-  end
-  object ShpStatus: TShape
-    Left = 280
-    Top = 8
-    Width = 33
-    Height = 49
-    Shape = stCircle
-    Visible = False
+    Caption = 'Multiple Threads  / Deadlock Solution'
   end
   object ShpAllThreadsStarted: TShape
     Left = 240
@@ -43,21 +34,6 @@ object Form6: TForm6
     Height = 15
     Caption = 'Threads'
   end
-  object lblCriticalSec: TLabel
-    Left = 240
-    Top = 178
-    Width = 30
-    Height = 15
-    Caption = 'Locks'
-  end
-  object ShpCriticalSec: TShape
-    Left = 240
-    Top = 162
-    Width = 33
-    Height = 15
-    Brush.Color = clSilver
-    Shape = stRoundRect
-  end
   object ListBx: TListBox
     Left = 24
     Top = 56
@@ -66,15 +42,6 @@ object Form6: TForm6
     ItemHeight = 15
     TabOrder = 0
   end
-  object btnExecute: TButton
-    Left = 24
-    Top = 280
-    Width = 97
-    Height = 25
-    Caption = 'Run'
-    TabOrder = 1
-    OnClick = btnExecuteClick
-  end
   object btnStop: TButton
     Left = 136
     Top = 280
@@ -82,7 +49,16 @@ object Form6: TForm6
     Height = 25
     Caption = 'Stop'
     Enabled = False
-    TabOrder = 2
+    TabOrder = 1
     OnClick = btnStopClick
+  end
+  object btnExecute: TButton
+    Left = 24
+    Top = 280
+    Width = 97
+    Height = 25
+    Caption = 'Run'
+    TabOrder = 2
+    OnClick = btnExecuteClick
   end
 end

@@ -4,10 +4,10 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, SyncObjs, System.Math;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, SyncObjs;
 
 const
-  THREAD_COUNT = 13;
+  THREAD_COUNT = 8;
 
 type
   TForm6 = class;
@@ -82,6 +82,7 @@ begin
   inherited;
 end;
 
+// Execute procedure describes what should happen when Thread is running...
 procedure TSeperateThread.Execute;
 var
   I : Integer;
@@ -89,6 +90,8 @@ var
   NextReceiverNo : Integer;
   ReceiverThread : TSeperateThread;
 begin
+            // Execute() responsible for periodically check Terminated value to determine
+            // the status of thread..
   while not Terminated do Begin
     // put message queue in critical section
     FMessageQueue.FCriticalSec.Enter();
@@ -140,6 +143,7 @@ begin
    SetLength(FMessageQueue.FMessages, 0);
 
    // update form's listbox via sync method
+   // communicate between main thread & sub threads
    Synchronize(
      procedure() Begin
        Form6.ListBx.Items[ FThreadNo ] := IntToStr(ACounter);
@@ -200,7 +204,7 @@ begin
 
   // thread count & lock count in the form
   for I := 0 to THREAD_COUNT - 1 do Begin
-    
+
     if FMyThread[I] <> NIL then Begin
       if not FMyThread[I].Terminated then
         Inc(FThreadCount)
@@ -210,9 +214,9 @@ begin
       if (FMyThread[I].FMessageQueue.FCriticalSec) <> NIL then
         Inc(FLocksCount)
       else
-        Dec(FLocksCount);    
+        Dec(FLocksCount);
     End;
-      
+
   End;
 
   // thread status
@@ -221,9 +225,9 @@ begin
     ShpAllThreadsStarted.Brush.Color := clLime;
   End else Begin
     lblThreadRunning.Caption := 'Threads: Running error!';
-    ShpAllThreadsStarted.Brush.Color := clRed;   
+    ShpAllThreadsStarted.Brush.Color := clRed;
   End;
-  
+
   // locks status
   if FLocksCount = THREAD_COUNT then Begin
 //    lblCriticalSec.Caption := 'Locks: All Applied';
@@ -232,8 +236,8 @@ begin
 //    lblCriticalSec.Caption := 'Locks: Locks Error!';
 //    ShpCriticalSec.Brush.Color := clRed;
   End;
-  
-  
+
+
 end;
 
 end.

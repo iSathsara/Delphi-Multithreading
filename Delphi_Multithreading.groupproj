@@ -9,6 +9,21 @@
         <Projects Include="MultiThread\MultiThread.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="CriticalSection\CriticalSection.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Interlock\Interlock.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Deadlock\DeadLock.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Deadlock_Fix\DeadLockFixed.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +50,59 @@
     <Target Name="MultiThread:Make">
         <MSBuild Projects="MultiThread\MultiThread.dproj" Targets="Make"/>
     </Target>
+    <Target Name="CriticalSection">
+        <MSBuild Projects="CriticalSection\CriticalSection.dproj"/>
+    </Target>
+    <Target Name="CriticalSection:Clean">
+        <MSBuild Projects="CriticalSection\CriticalSection.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CriticalSection:Make">
+        <MSBuild Projects="CriticalSection\CriticalSection.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Interlock">
+        <MSBuild Projects="Interlock\Interlock.dproj"/>
+    </Target>
+    <Target Name="Interlock:Clean">
+        <MSBuild Projects="Interlock\Interlock.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Interlock:Make">
+        <MSBuild Projects="Interlock\Interlock.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DeadLock">
+        <MSBuild Projects="Deadlock\DeadLock.dproj"/>
+    </Target>
+    <Target Name="DeadLock:Clean">
+        <MSBuild Projects="Deadlock\DeadLock.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DeadLock:Make">
+        <MSBuild Projects="Deadlock\DeadLock.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="DeadLockFixed">
+        <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj"/>
+    </Target>
+    <Target Name="DeadLockFixed:Clean">
+        <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DeadLockFixed:Make">
+        <MSBuild Projects="Deadlock_Fix\DeadLockFixed.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Multi_Read_Exclusive_Write">
+        <MSBuild Projects="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj"/>
+    </Target>
+    <Target Name="Multi_Read_Exclusive_Write:Clean">
+        <MSBuild Projects="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Multi_Read_Exclusive_Write:Make">
+        <MSBuild Projects="MultiReadExclusiveWrite\Multi_Read_Exclusive_Write.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="SingleThread;MultiThread"/>
+        <CallTarget Targets="SingleThread;MultiThread;CriticalSection;Interlock;DeadLock;DeadLockFixed;Multi_Read_Exclusive_Write"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean"/>
+        <CallTarget Targets="SingleThread:Clean;MultiThread:Clean;CriticalSection:Clean;Interlock:Clean;DeadLock:Clean;DeadLockFixed:Clean;Multi_Read_Exclusive_Write:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SingleThread:Make;MultiThread:Make"/>
+        <CallTarget Targets="SingleThread:Make;MultiThread:Make;CriticalSection:Make;Interlock:Make;DeadLock:Make;DeadLockFixed:Make;Multi_Read_Exclusive_Write:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
