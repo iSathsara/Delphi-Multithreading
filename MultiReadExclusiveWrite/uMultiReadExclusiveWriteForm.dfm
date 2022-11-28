@@ -19,6 +19,36 @@ object frmMain: TfrmMain
     Height = 15
     Caption = 'Thread Info'
   end
+  object shpReadThreadStatus: TShape
+    Left = 103
+    Top = 39
+    Width = 33
+    Height = 11
+    Brush.Color = clSilver
+    Shape = stRoundRect
+  end
+  object shpWriteThreadStatus: TShape
+    Left = 290
+    Top = 39
+    Width = 33
+    Height = 11
+    Brush.Color = clSilver
+    Shape = stRoundRect
+  end
+  object Label1: TLabel
+    Left = 16
+    Top = 35
+    Width = 81
+    Height = 15
+    Caption = 'ReaderThread : '
+  end
+  object Label2: TLabel
+    Left = 207
+    Top = 35
+    Width = 77
+    Height = 15
+    Caption = 'WriterThread : '
+  end
   object btnRandomize: TButton
     Left = 208
     Top = 8
@@ -34,6 +64,7 @@ object frmMain: TfrmMain
     Top = 56
     Width = 307
     Height = 329
+    Columns = 3
     ItemHeight = 15
     TabOrder = 1
   end

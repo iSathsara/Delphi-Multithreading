@@ -61,6 +61,10 @@ type
     btnStart: TButton;
     btnStop: TButton;
     Timer: TTimer;
+    shpReadThreadStatus: TShape;
+    shpWriteThreadStatus: TShape;
+    Label1: TLabel;
+    Label2: TLabel;
     procedure btnStartClick(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
     procedure TimerTimer(Sender: TObject);
@@ -73,6 +77,7 @@ type
     FDisplayIndex : Integer;
   public
     { Public declarations }
+    procedure CheckStatus;
   end;
 
 var
@@ -95,17 +100,18 @@ begin
   FSharedData.FGlobalLock:= TMultiReadExclusiveWriteSynchronizer.Create;
 
   // create MULTIPLE reader threads
-  for I := 0 to COUNT_READERS - 1 do
+  for I := 0 to (COUNT_READERS - 1) do
     FReaders[I]:= TReaderThread.Create(Self);
 
   // create SINGLE writer thread
   FWriter:= TWriterThread.Create(Self);
 
-  // timer should go here
   Timer.Enabled:= True;
 
   if Timer.Enabled then
     btnRandomize.Enabled:= True;
+
+  CheckStatus;
 
   btnStart.Enabled:= False;
   btnStop.Enabled:= True;
@@ -129,12 +135,41 @@ begin
 
   // release globle lock
   FSharedData.FGlobalLock.Free;
+  Timer.Enabled:= False;
+  ListBox1.Items.Clear;
+
+  CheckStatus;
 
   btnStop.Enabled:= False;
   btnStart.Enabled:= True;
+  btnRandomize.Enabled:= False;
 end;
 
-// Timer Event
+
+procedure TfrmMain.CheckStatus;
+var
+  Count: Integer;
+  I: Integer;
+begin
+  Count:= 0;
+
+  // check reader threads
+  for I := 0 to COUNT_READERS - 1 do Begin
+    if not FReaders[I].Terminated then
+      Inc(Count);
+  End;
+
+  if Count = COUNT_READERS then
+    shpReadThreadStatus.Brush.Color:= clLime
+  else
+    shpReadThreadStatus.Brush.Color:= clRed;
+
+  if not FWriter.Terminated then
+    shpWriteThreadStatus.Brush.Color:= clLime
+  else
+    shpWriteThreadStatus.Brush.Color:= clRed;
+
+end;
 
 procedure TfrmMain.TimerTimer(Sender: TObject);
 Var
@@ -151,7 +186,7 @@ begin
 
   // -----------------------------------------------------------------
 
-  lblThreadInfo.Caption := 'Data From Thread #' + IntToStr(FDisplayIndex);
+  lblThreadInfo.Caption := 'Data on Thread #' + IntToStr(FDisplayIndex);
 
   ListBox1.Items.BeginUpdate();
   ListBox1.Items.Clear();
@@ -173,7 +208,7 @@ end;
 
 constructor TReaderThread.Create(aOwner: TfrmMain);
 begin
-            // create NOT suspended thread
+            // create NOT suspended thread (start immideately after create)
   inherited Create(False);
   FOwner:= aOwner;
 
@@ -200,7 +235,7 @@ begin
     FOwner.FSharedData.FGlobalLock.BeginRead();
     FData.FCriticalSection.Enter();
 
-    for I := 0 to Length(FData.FReaderData) do
+    for I := 0 to Length(FData.FReaderData) - 1 do
       FData.FReaderData[I]:= FOwner.FSharedData.FData[ RandomRange( 0, Length(FOwner.FSharedData.FData )) ];
 
     FData.FCriticalSection.Leave();
@@ -237,6 +272,7 @@ begin
     FStartEvent.WaitFor(INFINITE);
                                    // Request permission to write in Globle lock
     FOwner.FSharedData.FGlobalLock.BeginWrite();
+    FOwner.shpWriteThreadStatus.Brush.Color:= clYellow;
 
     for I := 0 to Length(FOwner.FSharedData.FData) - 1 do
       FOwner.FSharedData.FData[I]:= RandomRange(-1000, 1000);
@@ -244,6 +280,7 @@ begin
                                    // mark as Write Complete
     FOwner.FSharedData.FGlobalLock.EndWrite();
   End;
+  FOwner.shpWriteThreadStatus.Brush.Color:= clGreen;
 
 end;
 
