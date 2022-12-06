@@ -171,4 +171,89 @@ implementation
 
 {$R *.dfm}
 
+{______________________________________________________________________________}
+{______________________________________________________________________________}
+{______________________________________________________________________________}
+
+{ TSharedDataAccess }
+
+constructor TSharedDataAccess.Create(AOwner: TSharedData);
+begin
+  inherited Create;
+  FOwner:= AOwner;
+end;
+
+function TSharedDataAccess.GetCount: Integer;
+begin
+  Result:= Length(FOwner.FData);
+end;
+
+function TSharedDataAccess.GetElement(AIndex: Integer): Real;
+begin
+  Result:= FOwner.FData[AIndex];
+end;
+{______________________________________________________________________________}
+{______________________________________________________________________________}
+
+{ TSharedReadDataAccess }
+
+constructor TSharedReadDataAccess.Create(AOwner: TSharedData);
+begin
+  inherited;
+  FOwner.FGlobalLock.BeginRead();
+end;
+
+destructor TSharedReadDataAccess.Destroy;
+begin
+  FOwner.FGlobalLock.EndRead();
+  inherited;
+end;
+{______________________________________________________________________________}
+{______________________________________________________________________________}
+
+{ TSharedWriteDataAccess }
+
+constructor TSharedWriteDataAccess.Create(AOwner: TSharedData);
+begin
+  inherited;
+  FOwner.FGlobalLock.BeginWrite();
+end;
+
+destructor TSharedWriteDataAccess.Destroy;
+begin
+  FOwner.FGlobalLock.EndWrite();
+  inherited;
+end;
+
+procedure TSharedWriteDataAccess.SetElement(AIndex: Integer; AValue: Real);
+begin
+  FOwner.FData[AIndex]:= AValue;
+end;
+{______________________________________________________________________________}
+{______________________________________________________________________________}
+
+{ TSharedData }
+
+constructor TSharedData.Create;
+begin
+  inherited;
+  FGlobalLock:= TMultiReadExclusiveWriteSynchronizer.Create();
+end;
+
+destructor TSharedData.Destroy;
+begin
+  FGlobalLock.Free();
+  inherited;
+end;
+
+function TSharedData.GetRead: ISharedReadDataAccess;
+begin
+
+end;
+
+function TSharedData.GetWrite: ISharedWriteDataAccess;
+begin
+
+end;
+
 end.
